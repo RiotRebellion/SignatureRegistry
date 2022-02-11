@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    internal class CryptoProvider : NamedEntity
+    public class CryptoProvider : NamedEntity
     {
-        public virtual string Version { get; set; }
+        public virtual string Version { get; set; } = null!;
     }
 }

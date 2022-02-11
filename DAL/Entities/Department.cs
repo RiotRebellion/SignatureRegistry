@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    internal class Department : NamedEntity
+    public class Department : NamedEntity
     {
-        public Department ParentDepartment { get; set; } 
+        public virtual Department? ParentDepartment { get; set; }
 
-        public IEnumerable<Department> ChildDepartments { get; set; }
+        public virtual List<Department>? ChildDepartments { get; set; } = new();
     }
 }

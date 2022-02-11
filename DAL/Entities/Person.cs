@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    internal class Person : NamedEntity
+    public class Person : NamedEntity
     {
-        public Department Department { get; set; }
+        public virtual Department Department { get; set; }
 
-        public string Duty { get; set; } = null!;
+        public virtual string Duty { get; set; } = null!;
     }
 }

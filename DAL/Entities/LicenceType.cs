@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class Token : NamedEntity
+    public enum LicenceType
     {
-        public virtual Person? Owner { get; set; }
-
-        public virtual Signature? Signature { get; set; }
-        
+        server = 1,
+        local
     }
 }

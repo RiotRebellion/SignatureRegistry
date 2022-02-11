@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities.Base
 {
-    internal abstract class NamedEntity
+    public abstract class NamedEntity : Entity
     {
         [Required]
         public virtual string Name { get; set; } = null!;
