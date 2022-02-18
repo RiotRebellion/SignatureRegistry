@@ -4,62 +4,81 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    public class GenericRepository<T> : IRepository<T> where T: class, IEntity, new() 
+    public class GenericRepository<TEntity> where TEntity : class, IEntity, new()
     {
-        internal DbContext context;
-        internal DbSet<T> dbSet;
+        internal SignatureRegistryContext context;
+        internal DbSet<TEntity> dbSet;
 
-        public GenericRepository(DbContext context)
+        public GenericRepository(SignatureRegistryContext context)
         {
             this.context = context;
-            this.dbSet = context.Set<T>();
+            this.dbSet = context.Set<TEntity>();
         }
 
-        public virtual void Create(T item)
+        public virtual IEnumerable<TEntity> GetAll(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "")
         {
-            dbSet.Add(item);
-        }
+            IQueryable<TEntity> query = dbSet;
 
-        public virtual void Delete(int id)
-        {
-            T? item = dbSet.Find(id);
-            if(item is not null)
-                Delete(item);
-        }
-
-        public virtual void Delete(T item)
-        {
-            if (context.Entry(item).State == EntityState.Detached)
+            if (filter != null)
             {
-                dbSet.Attach(item);
+                query = query.Where(filter);
             }
-            dbSet.Remove(item);
+
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                return orderBy(query).ToList();
+            }
+            else
+            {
+                return query.ToList();
+            }
         }
 
-        public virtual IEnumerable<T> Find(Func<T, bool> predicate)
+        public virtual TEntity GetById(object id)
         {
-            return dbSet.Where(predicate).ToList();
-        }
-
-        public virtual T? GetById(int id)
-        { 
             return dbSet.Find(id);
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public virtual void Insert(TEntity entity)
         {
-            return dbSet.ToList();
+            dbSet.Add(entity);
         }
 
-        public virtual void Update(T item)
+        public virtual void Delete(object id)
         {
-            dbSet.Attach(item);
-            context.Entry(item).State = EntityState.Modified;
+            TEntity entityToDelete = dbSet.Find(id);
+            if (entityToDelete != null)
+                dbSet.Remove(entityToDelete);
+        }
+
+        public virtual void Delete(TEntity entityToDelete)
+        {
+            if (context.Entry(entityToDelete).State == EntityState.Detached)
+            {
+                dbSet.Attach(entityToDelete);
+            }
+            dbSet.Remove(entityToDelete);
+        }
+
+        public virtual void Update(TEntity entityToUpdate)
+        {
+            dbSet.Attach(entityToUpdate);
+            context.Entry(entityToUpdate).State = EntityState.Modified;
         }
     }
 }

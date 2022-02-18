@@ -1,33 +1,36 @@
 ﻿using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+
+#nullable disable
 
 namespace DAL.Context
 {
-    internal class SignatureRegistryContext : DbContext
+    public class SignatureRegistryContext : DbContext
     {
-        public DbSet<Computer> Computers { get; set; }    
+        public DbSet<AccordanceSertificate> AccordanceSertificates { get; set; }
+        public DbSet<Computer> Computers { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
+        public DbSet<Department> Departments { get; set;}
+        public DbSet<Destribution> Destributions { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Formular> Formulars { get; set; }
+        public DbSet<Licence> Licences { get; set; }
+        public DbSet<Software> Softwares { get; set; }
+        public DbSet<SoftwareType> SoftwareTypes { get; set; }
+        public DbSet<Support> Supports { get; set; }
+        
 
-        public DbSet<CryptoProvider> CryptoProviders { get; set; }
-
-        public DbSet<Department> Departments { get; set; }
-
-        public DbSet<Person> Persons { get; set; }
-
-        public DbSet<ProviderLicence> ProviderLicences { get; set; }
-
-        public DbSet<Signature> Signatures { get; set; }
-
-        public DbSet<Token> Tokens { get; set; }        
-
+        //UNDONE: Контекст подключения к БД
 
         public SignatureRegistryContext(DbContextOptions<SignatureRegistryContext> options) : base(options)
         {
             Database.EnsureCreated();
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
+        {
+            optionBuilder.UseSqlServer("Data Source=DESKTOP-2TV6JC9;Initial Catalog=SIgnatureDB;Integrated Security=True");
         }
     }
 }

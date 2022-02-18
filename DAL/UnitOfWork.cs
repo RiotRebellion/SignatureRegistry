@@ -9,16 +9,40 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
+
+    //UNDONE: Подключение к бд через юнит оф ворк
     public class UnitOfWork : IDisposable
     {
         private SignatureRegistryContext context;
+
+        private GenericRepository<AccordanceSertificate> accordanceSertificateRepository;
         private GenericRepository<Computer> computerRepository;
-        private GenericRepository<CryptoProvider> cryptoProviderRepository;
+        private GenericRepository<Contract> contractRepository;
         private GenericRepository<Department> departmentRepository;
-        private GenericRepository<Person> personRepository;
-        private GenericRepository<ProviderLicence> providerLicenceRepository;
-        private GenericRepository<Signature> signatureRepository;
-        private GenericRepository<Token> tokenRepository;
+        private GenericRepository<Destribution> destributionRepository;
+        private GenericRepository<Employee> employeeRepository;
+        private GenericRepository<Formular> formularRepository;
+        private GenericRepository<Licence> licenceRepository;
+        private GenericRepository<Software> softwareRepository;
+        private GenericRepository<SoftwareType> softwareTypeRepository;
+        private GenericRepository<Support> supportRepository;
+
+        public UnitOfWork()
+        {
+
+        }
+
+        public GenericRepository<AccordanceSertificate> AccordanceSertificateRepository
+        {
+            get
+            {
+                if (this.accordanceSertificateRepository == null)
+                {
+                    this.accordanceSertificateRepository = new GenericRepository<AccordanceSertificate>(context);
+                }
+                return this.accordanceSertificateRepository;
+            }
+        }
 
         public GenericRepository<Computer> ComputerRepository
         {
@@ -28,20 +52,22 @@ namespace DAL
                 {
                     this.computerRepository = new GenericRepository<Computer>(context);
                 }
-                return computerRepository;
+                return this.computerRepository;
             }
         }
-        public GenericRepository<CryptoProvider> CryptoProviderRepository
+
+        public GenericRepository<Contract> ContractRepository
         {
             get
             {
-                if (this.cryptoProviderRepository == null)
+                if (this.contractRepository == null)
                 {
-                    this.cryptoProviderRepository = new GenericRepository<CryptoProvider>(context);
+                    this.contractRepository = new GenericRepository<Contract>(context);
                 }
-                return cryptoProviderRepository;
+                return this.contractRepository;
             }
         }
+
         public GenericRepository<Department> DepartmentRepository
         {
             get
@@ -50,51 +76,91 @@ namespace DAL
                 {
                     this.departmentRepository = new GenericRepository<Department>(context);
                 }
-                return departmentRepository;
+                return this.departmentRepository;
             }
         }
-        public GenericRepository<Person> PersonRepository
+
+        public GenericRepository<Destribution> DestributionRepository
         {
             get
             {
-                if (this.personRepository == null)
+                if (this.destributionRepository == null)
                 {
-                    this.personRepository = new GenericRepository<Person>(context);
+                    this.destributionRepository = new GenericRepository<Destribution>(context);
                 }
-                return personRepository;
+                return this.destributionRepository;
             }
         }
-        public GenericRepository<ProviderLicence> ProviderLicenceRepository
+
+        public GenericRepository<Employee> EmployeeRepository
         {
             get
             {
-                if (this.providerLicenceRepository == null)
+                if (this.employeeRepository == null)
                 {
-                    this.providerLicenceRepository = new GenericRepository<ProviderLicence>(context);
+                    this.employeeRepository = new GenericRepository<Employee>(context);
                 }
-                return providerLicenceRepository;
+                return this.employeeRepository;
             }
         }
-        public GenericRepository<Signature> SignatureRepository
+
+        public GenericRepository<Formular> FormularRepository
         {
             get
             {
-                if (this.signatureRepository == null)
+                if (this.formularRepository == null)
                 {
-                    this.signatureRepository = new GenericRepository<Signature>(context);
+                    this.formularRepository = new GenericRepository<Formular>(context);
                 }
-                return signatureRepository;
+                return this.formularRepository;
             }
         }
-        public GenericRepository<Token> TokenRepository
+
+        public GenericRepository<Licence> LicenceRepository
         {
             get
             {
-                if (this.tokenRepository == null)
+                if (this.licenceRepository == null)
                 {
-                    this.tokenRepository = new GenericRepository<Token>(context);
+                    this.licenceRepository = new GenericRepository<Licence>(context);
                 }
-                return tokenRepository;
+                return this.licenceRepository;
+            }
+        }
+
+        public GenericRepository<Software> SoftwareRepository
+        {
+            get
+            {
+                if (this.softwareRepository == null)
+                {
+                    this.softwareRepository = new GenericRepository<Software>(context);
+                }
+                return this.softwareRepository;
+            }
+        }
+
+        public GenericRepository<SoftwareType> SoftwareTypeRepository
+        {
+            get
+            {
+                if (this.softwareTypeRepository == null)
+                {
+                    this.softwareTypeRepository = new GenericRepository<SoftwareType>(context);
+                }
+                return this.softwareTypeRepository;
+            }
+        }
+
+        public GenericRepository<Support> SupportRepository
+        {
+            get
+            {
+                if (this.supportRepository == null)
+                {
+                    this.supportRepository = new GenericRepository<Support>(context);
+                }
+                return this.supportRepository;
             }
         }
 
@@ -107,16 +173,16 @@ namespace DAL
 
         protected virtual void Dispose(bool disposing)
         {
-            if (this.disposed == true)
+            if (this.disposed == false)
             {
-                if (disposing == true)
+                if (disposing)
                 {
                     context.Dispose();
                 }
             }
             this.disposed = true;
         }
-        
+
         public void Dispose()
         {
             Dispose(true);

@@ -10,16 +10,17 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class Department : Entity
+    public class Software : Entity
     {
         [Required]
         public virtual string Name { get; set; }
 
-        public virtual Department? ParentDepartment { get; set; }
+        public virtual string Version { get; set; }
 
-        public virtual List<Department>? ChildDepartments { get; set; }
+        public virtual SoftwareType SoftwareType { get; set; }
 
-        [Required]
-        public virtual List<Employee> Employees { get; set; }
+        public virtual List<Licence> Licences { get; set;}
+
+        public virtual Destribution? Destribution { get; set; }
     }
 }
