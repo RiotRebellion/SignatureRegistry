@@ -1,11 +1,14 @@
 ﻿using DAL.Context;
 using DAL.Entities;
 using DAL.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+#nullable disable
 
 namespace DAL
 {
@@ -27,9 +30,9 @@ namespace DAL
         private GenericRepository<SoftwareType> softwareTypeRepository;
         private GenericRepository<Support> supportRepository;
 
-        public UnitOfWork()
+        public UnitOfWork(DbContextOptions<SignatureRegistryContext> options)
         {
-
+            context = new SignatureRegistryContext(options);
         }
 
         public GenericRepository<AccordanceSertificate> AccordanceSertificateRepository

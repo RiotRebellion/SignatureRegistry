@@ -19,18 +19,10 @@ namespace DAL.Context
         public DbSet<Software> Softwares { get; set; }
         public DbSet<SoftwareType> SoftwareTypes { get; set; }
         public DbSet<Support> Supports { get; set; }
-        
 
-        //UNDONE: Контекст подключения к БД
-
-        public SignatureRegistryContext(DbContextOptions<SignatureRegistryContext> options) : base(options)
+        public SignatureRegistryContext(DbContextOptions<SignatureRegistryContext> options)
+            : base(options)
         {
-            Database.EnsureCreated();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
-        {
-            optionBuilder.UseSqlServer("Data Source=DESKTOP-2TV6JC9;Initial Catalog=SIgnatureDB;Integrated Security=True");
         }
     }
 }
