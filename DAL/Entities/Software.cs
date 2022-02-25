@@ -17,10 +17,13 @@ namespace DAL.Entities
 
         public virtual string Version { get; set; }
 
+        [Required]
+        public virtual int SoftwareTypeId { get; set; }
         public virtual SoftwareType SoftwareType { get; set; }
 
         public virtual List<Licence> Licences { get; set;}
 
+        public virtual int DestributionId { get; set; }
         public virtual Destribution? Destribution { get; set; }
     }
 }

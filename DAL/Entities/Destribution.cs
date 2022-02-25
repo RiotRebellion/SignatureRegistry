@@ -12,6 +12,7 @@ namespace DAL.Entities
 
         public virtual string? OrgRegNumber { get; set; }
 
+        public virtual int FormularId { get; set; }
         public virtual Formular? Formular { get; set; }
     }
 }

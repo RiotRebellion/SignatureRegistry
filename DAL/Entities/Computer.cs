@@ -22,7 +22,8 @@ namespace DAL.Entities
         [Required]
         public virtual string InvNumber { get; set; }
 
-        public virtual Employee? Employee { get; set; }
+        public virtual int EmployeeId { get; set; }
+        public virtual Employee Employee { get; set; }
 
         [Required]
         public virtual string Location { get; set; }
